@@ -1,2 +1,7 @@
 Style/Documentation:
   Enabled: false
+Style/LambdaCall:
+  Enabled: false
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+  

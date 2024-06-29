@@ -36,7 +36,22 @@ module Subscriptions
       transform_keys(&:to_sym)
 
       attribute :update_id, Types::Integer
-      attribute :message do
+      attribute? :message do
+        attribute :message_id, Types::Integer
+
+        attribute? :from do
+          attributes_from User
+        end
+
+        attribute? :chat do
+          attributes_from Chat
+        end
+
+        attribute :date, Types::Integer
+        attribute :text, Types::String
+      end
+
+      attribute? :edited_message do
         attribute :message_id, Types::Integer
 
         attribute? :from do

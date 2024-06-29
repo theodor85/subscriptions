@@ -8,14 +8,13 @@ Dotenv.load
 
 module Subscriptions
   class App < Sinatra::Application
-    include Import[:router, :config]
-
-    get '/ping' do
-      router.(params)
-    end
+    include Import[:router, :telegram_sender]
 
     post "/#{ENV['WEBHOOK_ENDPOINT']}" do
-      router.(params.merge(update: JSON.parse(request.body.read)))
+      answer = router.(params.merge(update: JSON.parse(request.body.read)))
+      telegram_sender.(answer[:chat_id], answer[:message]) unless answer.nil?
+
+      'ok'
     end
   end
 end

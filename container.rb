@@ -9,7 +9,7 @@ module Subscriptions
       require_relative './app/config'
 
       Subscriptions::Config.new(tg_token: ENV['TG_TOKEN'],
-                                tg_url:  ENV['TG_URL'],
+                                tg_url: ENV['TG_URL'],
                                 tg_bot_id: ENV['TG_BOT_ID'],
                                 webhook_url: "#{ENV['WEBHOOK_URL']}#{ENV['WEBHOOK_ENDPOINT']}",
                                 webhook_secret_token: ENV['WEBHOOK_SECRET_TOKEN'])
@@ -27,25 +27,27 @@ module Subscriptions
       Subscriptions::Http::Client.new
     end
 
-    register(:telegram) do
-      require_relative './app/gateways/telegram'
+    register(:telegram_sender) do
+      require_relative './app/telegram/sender'
 
-      Subscriptions::Gateways::Telegram.new
+      Subscriptions::Telegram::Sender.new
+    end
+
+    register(:echo) do
+      require_relative './app/operations/echo'
+
+      Subscriptions::Operations::Echo.new
+    end
+
+    register(:message_parser) do
+      require_relative './app/operations/message_parser'
+
+      Subscriptions::Operations::MessageParser.new
     end
 
     register(:router) do
       require_relative './app/router'
       Subscriptions::Router.new
-    end
-
-    register(:ping) do
-      require_relative './app/controllers/ping'
-      Subscriptions::Controllers::Ping.new
-    end
-
-    register(:update_handler) do
-      require_relative './app/controllers/update_handler'
-      Subscriptions::Controllers::UpdateHandler.new
     end
   end
 
