@@ -5,7 +5,14 @@ module Subscriptions
       include Import[:echo]
 
       def call(message)
-        Success(echo)
+        command = message.split(' ')[0]
+
+        case command
+        when '/echo'
+          Success(echo)
+        else
+          Failure('Unknown command')
+        end
       end
     end
   end
