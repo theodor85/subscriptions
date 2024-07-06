@@ -9,11 +9,8 @@ module Subscriptions
     include Import[:message_parser]
 
     def call(params)
-      # парсим объект update
-      # парсим текст сообщения, в зависимости от команды получаем нужную операуию
-      # результат операции возвращаем наверх в виде ответного сообщения для отправки
-
-      @update = Subscriptions::TgObjects::Update.new(params[:update])
+      construct_update_object(params)
+      return nil if update.nil?
       return nil unless update_has_message?
 
       return { chat_id:, message: parse_result.failure } unless parse_result.success?
@@ -28,12 +25,10 @@ module Subscriptions
 
     private
 
-    def parse_result
-      @parse_result ||= message_parser.(update.message.text)
-    end
-
-    def operation
-      parse_result.value!
+    def construct_update_object(params)
+      @update = Subscriptions::TgObjects::Update.new(params[:update])
+    rescue Dry::Struct::Error
+      @update = nil
     end
 
     def update_has_message?
@@ -42,6 +37,14 @@ module Subscriptions
 
     def chat_id
       update.message.chat.id
+    end
+
+    def parse_result
+      message_parser.(update.message.text)
+    end
+
+    def operation
+      parse_result.value!
     end
   end
 end

@@ -4,7 +4,7 @@ module Subscriptions
       include ::Dry::Monads[:result]
 
       def call(message)
-        Success("Возвращаем вам ваше сообщение: #{message}")
+        Success("Возвращаем вам ваше сообщение: #{message.split(' ')[1..].join(' ')}")
       end
     end
   end
