@@ -1,0 +1,1 @@
+rerun --dir app -- puma -p 3000 -b tcp://0.0.0.0

@@ -24,6 +24,8 @@ gem 'faraday'
 gem 'dotenv'
 
 group :development do
+  gem 'rerun'
+
   gem 'pry'
   gem 'pry-byebug'
   gem 'rubocop'
