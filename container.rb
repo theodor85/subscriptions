@@ -15,6 +15,12 @@ module Subscriptions
                                 webhook_secret_token: ENV['WEBHOOK_SECRET_TOKEN'])
     end
 
+    register(:redis) do
+      require 'redis'
+
+      Redis.new(url: ENV['REDIS_URL'])
+    end
+
     register(:http_connection) do
       require 'faraday'
 
@@ -25,6 +31,12 @@ module Subscriptions
       require_relative './app/http/client'
 
       Subscriptions::Http::Client.new
+    end
+
+    register(:state_machine) do
+      require_relative './app/operations/state_machine'
+
+      Subscriptions::Operations::StateMachine.new
     end
 
     register(:telegram_sender) do

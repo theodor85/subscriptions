@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'dry/monads'
 
 module Subscriptions
@@ -9,6 +10,8 @@ module Subscriptions
 
       def call(url, method, params = nil, headers = nil)
         reponse = http_connection.send(method, url, params.to_json, actual_headers(headers))
+
+        puts "*********** HTTP reponse=#{reponse.body}"
 
         if reponse.status == 200
           Success()

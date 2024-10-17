@@ -12,7 +12,12 @@ module Subscriptions
         @chat_id = chat_id
         @message = message
 
-        http_client.("#{config.tg_url}/sendMessage", :post, message_body)
+        puts '********** before response'
+        response = http_client.("#{config.tg_url}/sendMessage", :post, message_body)
+
+        puts "*********** reponse=#{response}"
+
+        response
       end
 
       private
@@ -21,6 +26,12 @@ module Subscriptions
         {
           chat_id: @chat_id,
           text: @message,
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: 'echo', url: 'https://www.google.com' }],
+              [{ text: 'help', url: 'https://www.google.com' }]
+            ],
+          }
         }
       end
     end

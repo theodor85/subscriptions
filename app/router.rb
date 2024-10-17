@@ -5,22 +5,23 @@ module Subscriptions
   class Router
     attr_reader :update
 
-    include ::Dry::Monads[:result]
-    include Import[:message_parser]
+    include ::Dry::Monads[:result, :do]
+    include Import[:message_parser, :state_machine]
 
     def call(params)
+      puts '****** inside router'
       construct_update_object(params)
       return nil if update.nil?
       return nil unless update_has_message?
 
       return { chat_id:, message: parse_result.failure } unless parse_result.success?
 
-      case operation.(update.message.text)
-      in Success(answer)
-        { chat_id:, message: answer }
-      in Failure(error)
-        { chat_id:, message: error }
-      end
+      current_state, current_data = yield state_machine.get_current_state(user_id:)
+      operation = yield state_machine.get_operation(current_state, update)
+      answer, next_state, data = yield operation.(update:, current_data:)
+      yield state_machine.save_state(user_id:, state: next_state, data:)
+
+      Success({ chat_id:, message: answer })
     end
 
     private
@@ -45,6 +46,10 @@ module Subscriptions
 
     def operation
       parse_result.value!
+    end
+
+    def user_id
+      update.message.from.id
     end
   end
 end
