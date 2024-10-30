@@ -33,6 +33,12 @@ module Subscriptions
       Subscriptions::Http::Client.new
     end
 
+    register('states.initial') do
+      require_relative './app/states/initial'
+
+      Subscriptions::States::Initial.new
+    end
+
     register(:state_machine) do
       require_relative './app/operations/state_machine'
 
@@ -45,17 +51,17 @@ module Subscriptions
       Subscriptions::Telegram::Sender.new
     end
 
-    register(:echo) do
+    register('operations.echo') do
       require_relative './app/operations/echo'
 
       Subscriptions::Operations::Echo.new
     end
 
-    register(:message_parser) do
-      require_relative './app/operations/message_parser'
+    # register(:message_parser) do
+    #   require_relative './app/operations/message_parser'
 
-      Subscriptions::Operations::MessageParser.new
-    end
+    #   Subscriptions::Operations::MessageParser.new
+    # end
 
     register(:router) do
       require_relative './app/router'

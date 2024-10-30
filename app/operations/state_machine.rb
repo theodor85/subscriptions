@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Subscriptions
   module Operations
     class StateMachine
       include ::Dry::Monads[:result]
-      include Import[:config, :redis, :echo]
+      include Import[:config, :redis, 'states.initial']
 
       def get_current_state(user_id)
         state = redis.get("#{user_id}_state")
@@ -14,9 +16,7 @@ module Subscriptions
       end
 
       def get_operation(state, update)
-        nil unless update.message.text == '/echo' && state == :initial
-
-        Success(echo)
+        send(state).call(update)
       end
 
       def save_state(user_id:, state:, data:)
