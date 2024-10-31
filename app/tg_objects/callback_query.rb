@@ -8,7 +8,7 @@ require_relative 'message'
 module Subscriptions
   module TgObjects
     class CallbackQuery < SymbolizeStruct
-      attribute :id, Types::Integer
+      attribute :id, Types::String
       attribute :from do
         attributes_from User
       end

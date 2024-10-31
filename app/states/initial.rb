@@ -6,13 +6,14 @@ module Subscriptions
   module States
     class Initial < Base
       include Import[
-        'operations.echo'
+        'operations.echo',
+        'operations.do_nothing',
       ]
 
       private
 
       def operation
-        return unless update.message.text == '/echo'
+        return do_nothing unless update.message&.text == '/echo'
 
         echo
       end

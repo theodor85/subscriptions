@@ -11,11 +11,11 @@ module Subscriptions
     def call(params)
       puts '****** inside router'
       construct_update_object(params)
-      return nil if update.nil?
-      return nil unless update_has_message?
 
       current_state, current_data = yield state_machine.get_current_state(user_id:)
+      puts "********** current_state=#{current_state}"
       operation = yield state_machine.get_operation(current_state, update)
+      puts "********** operation=#{operation}"
       answer, next_state, data = yield operation.(update:, current_data:)
       yield state_machine.save_state(user_id:, state: next_state, data:)
 
@@ -25,17 +25,18 @@ module Subscriptions
     private
 
     def construct_update_object(params)
+      puts "**********construct_update_object params=#{params}"
       @update = Subscriptions::TgObjects::Update.new(params[:update])
-    rescue Dry::Struct::Error
+    rescue Dry::Struct::Error => e
+      puts "**********construct_update_object error=#{e}"
       @update = nil
     end
 
-    def update_has_message?
-      !update.message.nil?
-    end
-
     def user_id
-      update.message.from.id
+      return update.message&.from&.id if update.message
+      return update.edited_message&.from&.id if update.edited_message
+
+      update.callback_query&.from&.id
     end
   end
 end

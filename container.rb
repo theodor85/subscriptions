@@ -33,10 +33,52 @@ module Subscriptions
       Subscriptions::Http::Client.new
     end
 
+    register('states.qwestion') do
+      require_relative './app/states/qwestion'
+
+      Subscriptions::States::Qwestion.new
+    end
+
+    register('operations.turn_off') do
+      require_relative './app/operations/turn_off'
+
+      Subscriptions::Operations::TurnOff.new
+    end
+
+    register('operations.turn_on') do
+      require_relative './app/operations/turn_on'
+
+      Subscriptions::Operations::TurnOn.new
+    end
+
+    register('operations.return_to_main') do
+      require_relative './app/operations/return_to_main'
+
+      Subscriptions::Operations::ReturnToMain.new
+    end
+
+    register('operations.error') do
+      require_relative './app/operations/error'
+
+      Subscriptions::Operations::Error.new
+    end
+
     register('states.initial') do
       require_relative './app/states/initial'
 
       Subscriptions::States::Initial.new
+    end
+
+    register('operations.echo') do
+      require_relative './app/operations/echo'
+
+      Subscriptions::Operations::Echo.new
+    end
+
+    register('operations.do_nothing') do
+      require_relative './app/operations/do_nothing'
+
+      Subscriptions::Operations::DoNothing.new
     end
 
     register(:state_machine) do
@@ -50,18 +92,6 @@ module Subscriptions
 
       Subscriptions::Telegram::Sender.new
     end
-
-    register('operations.echo') do
-      require_relative './app/operations/echo'
-
-      Subscriptions::Operations::Echo.new
-    end
-
-    # register(:message_parser) do
-    #   require_relative './app/operations/message_parser'
-
-    #   Subscriptions::Operations::MessageParser.new
-    # end
 
     register(:router) do
       require_relative './app/router'

@@ -8,15 +8,15 @@ require_relative '../tg_objects/inline_keyboard_button'
 
 module Subscriptions
   module Operations
-    class Echo < Base
+    class TurnOff < Base
       private
 
       def answer
         Subscriptions::TgObjects::Answer.new(
-          tg_method: 'sendMessage',
+          tg_method: 'editMessageReplyMarkup',
           answer_body: Subscriptions::TgObjects::AnswerBody.new(
-            chat_id: update.message.chat.id,
-            text: 'Echo',
+            chat_id: update.callback_query.from.id,
+            message_id: update.callback_query.message.message_id,
             reply_markup:
           )
         )
@@ -37,8 +37,8 @@ module Subscriptions
       def inline_keyboard
         [[
           Subscriptions::TgObjects::InlineKeyboardButton.new(
-            text: 'Выключить',
-            callback_data: 'off'
+            text: 'Включить',
+            callback_data: 'on'
           ),
           Subscriptions::TgObjects::InlineKeyboardButton.new(
             text: 'Вернуться',

@@ -7,7 +7,8 @@ module Subscriptions
   module TgObjects
     class AnswerBody < SymbolizeStruct
       attribute :chat_id, Types::Integer
-      attribute :text, Types::String
+      attribute? :message_id, Types::Integer
+      attribute? :text, Types::String
       attribute? :reply_markup do
         attributes_from ReplyMarkup
       end
