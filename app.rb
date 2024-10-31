@@ -13,9 +13,11 @@ module Subscriptions
     post "/#{ENV['WEBHOOK_ENDPOINT']}" do
       rqst_body = request.body.read
       puts "*********** request.body=#{rqst_body}"
+      puts "*********** params=#{params}"
 
       result = router.(params.merge(update: JSON.parse(rqst_body)))
-      telegram_sender.(result.value![:chat_id], result.value![:message]) if result.success?
+      telegram_sender.(result.value!) if result.success?
+      telegram_sender.(result.failure) if result.failure?
 
       'ok'
     rescue JSON::ParserError

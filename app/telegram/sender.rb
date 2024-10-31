@@ -8,31 +8,14 @@ module Subscriptions
       include ::Dry::Monads[:result]
       include Import[:http_client, :config]
 
-      def call(chat_id, message)
-        @chat_id = chat_id
-        @message = message
-
+      def call(answer)
         puts '********** before response'
-        response = http_client.("#{config.tg_url}/sendMessage", :post, message_body)
+        puts "********** answer.to_h=#{answer.to_h}"
+        response = http_client.("#{config.tg_url}/#{answer.tg_method}", :post, answer.answer_body.to_h)
 
         puts "*********** reponse=#{response}"
 
         response
-      end
-
-      private
-
-      def message_body
-        {
-          chat_id: @chat_id,
-          text: @message,
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: 'echo', url: 'https://www.google.com' }],
-              [{ text: 'help', url: 'https://www.google.com' }]
-            ],
-          }
-        }
       end
     end
   end
