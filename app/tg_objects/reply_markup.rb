@@ -4,10 +4,8 @@ require 'dry-struct'
 
 require_relative 'inline_keyboard_button'
 
-module Subscriptions
-  module TgObjects
-    class ReplyMarkup < SymbolizeStruct
-      attribute? :inline_keyboard, Types::Array.of(Types::Array.of(InlineKeyboardButton))
-    end
+module TgObjects
+  class ReplyMarkup < SymbolizeStruct
+    attribute? :inline_keyboard, Types::Array.of(Types::Array.of(InlineKeyboardButton))
   end
 end

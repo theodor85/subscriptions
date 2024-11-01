@@ -2,21 +2,19 @@
 
 require_relative 'base'
 
-module Subscriptions
-  module States
-    class Initial < Base
-      include Import[
-        'operations.echo',
-        'operations.do_nothing',
-      ]
+module States
+  class Initial < Base
+    include Import[
+      'operations.echo',
+      'operations.do_nothing',
+    ]
 
-      private
+    private
 
-      def operation
-        return do_nothing unless update.message&.text == '/echo'
+    def operation
+      return do_nothing unless update.message&.text == '/echo'
 
-        echo
-      end
+      echo
     end
   end
 end

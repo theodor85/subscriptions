@@ -1,25 +1,23 @@
 # frozen_string_literal: true
 
-module Subscriptions
-  module States
-    class Base
-      include ::Dry::Monads[:result]
+module States
+  class Base
+    include ::Dry::Monads[:result]
 
-      attr_reader :update
+    attr_reader :update
 
-      def call(update)
-        @update = update
+    def call(update)
+      @update = update
 
-        return Success(operation) if operation
+      return Success(operation) if operation
 
-        Failure('Unknown command')
-      end
+      Failure('Unknown command')
+    end
 
-      protected
+    protected
 
-      def operation
-        raise NotImplementedError
-      end
+    def operation
+      raise NotImplementedError
     end
   end
 end
