@@ -8,18 +8,19 @@ gem 'puma'
 gem 'rack'
 gem 'sinatra'
 
-gem 'pg'
 gem 'activerecord'
+gem 'pg'
 
 gem 'dry-auto_inject'
 gem 'dry-container'
 gem 'dry-monads'
+gem 'dry-struct'
 gem 'dry-system'
 gem 'dry-validation'
-gem 'dry-struct'
 
-gem 'sidekiq'
 gem 'faraday'
+gem 'redis'
+gem 'sidekiq'
 
 gem 'dotenv'
 

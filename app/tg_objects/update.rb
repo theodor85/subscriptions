@@ -1,70 +1,23 @@
 # frozen_string_literal: true
+
 require 'dry-struct'
+require_relative 'symbolize_struct'
+require_relative 'callback_query'
+require_relative 'message'
 
-module Subscriptions
-  module TgObjects
-    module Types
-      include Dry.Types()
+module TgObjects
+  class Update < SymbolizeStruct
+    attribute :update_id, Types::Integer
+    attribute? :message do
+      attributes_from Message
     end
 
-    class SymbolizeStruct < Dry::Struct
-      transform_keys(&:to_sym)
+    attribute? :edited_message do
+      attributes_from Message
     end
 
-    class User < SymbolizeStruct
-      transform_keys(&:to_sym)
-
-      attribute :id, Types::Integer
-      attribute :is_bot, Types::Bool
-      attribute :first_name, Types::String
-      attribute? :last_name, Types::String
-      attribute? :username, Types::String
-      attribute? :language_code, Types::String
-    end
-
-    class Chat < SymbolizeStruct
-      transform_keys(&:to_sym)
-
-      attribute :id, Types::Integer
-      attribute? :first_name, Types::String
-      attribute? :last_name, Types::String
-      attribute? :username, Types::String
-      attribute :type, Types::String
-    end
-
-    class Update < SymbolizeStruct
-      transform_keys(&:to_sym)
-
-      attribute :update_id, Types::Integer
-      attribute? :message do
-        attribute :message_id, Types::Integer
-
-        attribute? :from do
-          attributes_from User
-        end
-
-        attribute? :chat do
-          attributes_from Chat
-        end
-
-        attribute :date, Types::Integer
-        attribute :text, Types::String
-      end
-
-      attribute? :edited_message do
-        attribute :message_id, Types::Integer
-
-        attribute? :from do
-          attributes_from User
-        end
-
-        attribute? :chat do
-          attributes_from Chat
-        end
-
-        attribute :date, Types::Integer
-        attribute :text, Types::String
-      end
+    attribute? :callback_query do
+      attributes_from CallbackQuery
     end
   end
 end

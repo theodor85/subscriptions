@@ -3,4 +3,4 @@
 require 'pry'
 require_relative './app'
 
-map('/') { run Subscriptions::App }
+map('/') { run App }

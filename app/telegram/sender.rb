@@ -2,27 +2,21 @@
 
 require 'dry/monads'
 
-module Subscriptions
-  module Telegram
-    class Sender
-      include ::Dry::Monads[:result]
-      include Import[:http_client, :config]
+module Telegram
+  class Sender
+    include ::Dry::Monads[:result]
+    include Import[:http_client, :config]
 
-      def call(chat_id, message)
-        @chat_id = chat_id
-        @message = message
+    def call(answer)
+      puts '********** before response'
+      puts "********** answer.to_h=#{answer.to_h}" if answer
+      return unless answer
 
-        http_client.("#{config.tg_url}/sendMessage", :post, message_body)
-      end
+      response = http_client.("#{config.tg_url}/#{answer.tg_method}", :post, answer.answer_body.to_h)
 
-      private
+      puts "*********** reponse=#{response}"
 
-      def message_body
-        {
-          chat_id: @chat_id,
-          text: @message,
-        }
-      end
+      response
     end
   end
 end

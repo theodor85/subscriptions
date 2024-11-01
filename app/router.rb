@@ -1,50 +1,44 @@
 require 'dry/monads'
 require_relative './tg_objects/update'
 
-module Subscriptions
-  class Router
-    attr_reader :update
+class Router
+  include ::Dry::Monads[:result, :do]
+  include Import[
+    'state_machine.get_current_state',
+    'state_machine.get_operation',
+    'state_machine.save_state',
+  ]
 
-    include ::Dry::Monads[:result]
-    include Import[:message_parser]
+  attr_reader :update
 
-    def call(params)
-      construct_update_object(params)
-      return nil if update.nil?
-      return nil unless update_has_message?
+  def call(params)
+    puts '****** inside router'
+    construct_update_object(params)
 
-      return { chat_id:, message: parse_result.failure } unless parse_result.success?
+    state, current_data = yield get_current_state.(user_id:)
+    puts "********** state=#{state}"
+    current_operation = yield get_operation.(state:, update:)
+    puts "********** operation=#{current_operation}"
+    answer, next_state, data = yield current_operation.(update:, current_data:)
+    yield save_state.(user_id:, state: next_state, data:)
 
-      case operation.(update.message.text)
-      in Success(answer)
-        { chat_id:, message: answer }
-      in Failure(error)
-        { chat_id:, message: error }
-      end
-    end
+    Success(answer)
+  end
 
-    private
+  private
 
-    def construct_update_object(params)
-      @update = Subscriptions::TgObjects::Update.new(params[:update])
-    rescue Dry::Struct::Error
-      @update = nil
-    end
+  def construct_update_object(params)
+    puts "**********construct_update_object params=#{params}"
+    @update = TgObjects::Update.new(params[:update])
+  rescue Dry::Struct::Error => e
+    puts "**********construct_update_object error=#{e}"
+    @update = nil
+  end
 
-    def update_has_message?
-      !update.message.nil?
-    end
+  def user_id
+    return update.message&.from&.id if update.message
+    return update.edited_message&.from&.id if update.edited_message
 
-    def chat_id
-      update.message.chat.id
-    end
-
-    def parse_result
-      message_parser.(update.message.text)
-    end
-
-    def operation
-      parse_result.value!
-    end
+    update.callback_query&.from&.id
   end
 end
