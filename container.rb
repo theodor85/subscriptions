@@ -40,28 +40,28 @@ class Container
     States::Qwestion.new
   end
 
-  register('operations.turn_off') do
-    require_relative './app/operations/turn_off'
+  register('operations.qwestion.turn_off') do
+    require_relative './app/operations/qwestion/turn_off'
 
-    Operations::TurnOff.new
+    Operations::Qwestion::TurnOff.new
   end
 
-  register('operations.turn_on') do
-    require_relative './app/operations/turn_on'
+  register('operations.qwestion.turn_on') do
+    require_relative './app/operations/qwestion/turn_on'
 
-    Operations::TurnOn.new
+    Operations::Qwestion::TurnOn.new
   end
 
-  register('operations.return_to_main') do
-    require_relative './app/operations/return_to_main'
+  register('operations.qwestion.return_to_main') do
+    require_relative './app/operations/qwestion/return_to_main'
 
-    Operations::ReturnToMain.new
+    Operations::Qwestion::ReturnToMain.new
   end
 
-  register('operations.error') do
-    require_relative './app/operations/error'
+  register('operations.qwestion.error') do
+    require_relative './app/operations/qwestion/error'
 
-    Operations::Error.new
+    Operations::Qwestion::Error.new
   end
 
   register('states.initial') do
@@ -70,16 +70,16 @@ class Container
     States::Initial.new
   end
 
-  register('operations.echo') do
-    require_relative './app/operations/echo'
+  register('operations.initial.echo') do
+    require_relative './app/operations/initial/echo'
 
-    Operations::Echo.new
+    Operations::Initial::Echo.new
   end
 
-  register('operations.do_nothing') do
-    require_relative './app/operations/do_nothing'
+  register('operations.initial.do_nothing') do
+    require_relative './app/operations/initial/do_nothing'
 
-    Operations::DoNothing.new
+    Operations::Initial::DoNothing.new
   end
 
   register('state_machine.get_current_state') do

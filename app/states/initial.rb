@@ -5,8 +5,8 @@ require_relative 'base'
 module States
   class Initial < Base
     include Import[
-      'operations.echo',
-      'operations.do_nothing',
+      'operations.initial.echo',
+      'operations.initial.do_nothing',
     ]
 
     private

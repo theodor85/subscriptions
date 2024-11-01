@@ -5,10 +5,10 @@ require_relative 'base'
 module States
   class Qwestion < Base
     include Import[
-      'operations.turn_off',
-      'operations.turn_on',
-      'operations.error',
-      'operations.return_to_main'
+      'operations.qwestion.turn_off',
+      'operations.qwestion.turn_on',
+      'operations.qwestion.error',
+      'operations.qwestion.return_to_main'
     ]
 
     private

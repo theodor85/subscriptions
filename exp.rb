@@ -1,25 +1,32 @@
+# frozen_string_literal: true
+
 require 'dry-struct'
+require 'json'
 
+module Exp
+  module Types
+    include Dry.Types()
+  end
 
-module Types
-  include Dry.Types()
-end
+  class SymbolizeStruct < Dry::Struct
+    transform_keys(&:to_sym)
+  end
 
-class Config < Dry::Struct
-  attribute :id, Types::Integer
-  attribute :message, Types::String
-  attribute :chat do
+  class User < SymbolizeStruct
     attribute :id, Types::Integer
-    attribute :sender, Types::String
+    attribute :username, Types::String
+  end
+
+  class Collection < SymbolizeStruct
+    attribute :users, Types::Array.of(User)
   end
 end
 
-h = {id: 123, message: 'mhello', chat: {id: 234, sender: 'Пися'}}
+# users = Exp::Collection.new(users: [Exp::User.new(id: 1, username: 'user1'), Exp::User.new(id: 2, username: 'user2')])
 
-c = Config.new h
+# puts users
 
-puts c.chat
+# puts users.to_h.to_json
 
-
-chat = Config::Chat.new h[:chat]
-puts chat.sender
+user = Exp::User.new(id: 1, username: 'user1')
+puts user.username
