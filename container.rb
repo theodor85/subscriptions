@@ -81,10 +81,22 @@ module Subscriptions
       Subscriptions::Operations::DoNothing.new
     end
 
-    register(:state_machine) do
-      require_relative './app/operations/state_machine'
+    register('state_machine.get_current_state') do
+      require_relative './app/state_machine/get_current_state'
 
-      Subscriptions::Operations::StateMachine.new
+      Subscriptions::StateMachine::GetCurrentState.new
+    end
+
+    register('state_machine.get_operation') do
+      require_relative './app/state_machine/get_operation'
+
+      Subscriptions::StateMachine::GetOperation.new
+    end
+
+    register('state_machine.save_state') do
+      require_relative './app/state_machine/save_state'
+
+      Subscriptions::StateMachine::SaveState.new
     end
 
     register(:telegram_sender) do

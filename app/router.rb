@@ -4,7 +4,11 @@ require_relative './tg_objects/update'
 module Subscriptions
   class Router
     include ::Dry::Monads[:result, :do]
-    include Import[:state_machine]
+    include Import[
+      'state_machine.get_current_state',
+      'state_machine.get_operation',
+      'state_machine.save_state',
+    ]
 
     attr_reader :update
 
@@ -12,12 +16,12 @@ module Subscriptions
       puts '****** inside router'
       construct_update_object(params)
 
-      current_state, current_data = yield state_machine.get_current_state(user_id:)
-      puts "********** current_state=#{current_state}"
-      operation = yield state_machine.get_operation(current_state, update)
-      puts "********** operation=#{operation}"
-      answer, next_state, data = yield operation.(update:, current_data:)
-      yield state_machine.save_state(user_id:, state: next_state, data:)
+      state, current_data = yield get_current_state.(user_id:)
+      puts "********** state=#{state}"
+      current_operation = yield get_operation.(state:, update:)
+      puts "********** operation=#{current_operation}"
+      answer, next_state, data = yield current_operation.(update:, current_data:)
+      yield save_state.(user_id:, state: next_state, data:)
 
       Success(answer)
     end
