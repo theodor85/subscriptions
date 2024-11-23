@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV['RACK_ENV'] = 'test'
 
 require './app'
@@ -12,9 +14,9 @@ Dir[File.join('spec', 'support', '**', '*.rb')].each { |f| load f }
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  config.include_context :sending_messages, type: :sending_messages
+  config.include_context 'sending messages', type: :sending_messages
 
   def app
-    Subscriptions::App
+    App
   end
 end

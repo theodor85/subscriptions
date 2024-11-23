@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require_relative '../../../app/http/client'
 
-RSpec.shared_context :sending_messages do
+RSpec.shared_context 'sending messages' do
   let(:request_body) do
     {
       update_id: 1,
@@ -21,10 +23,10 @@ RSpec.shared_context :sending_messages do
     }
   end
   let(:headers) { { 'CONTENT_TYPE' => 'application/json' } }
-  let(:http_client) { double('Subscriptions::Http::Client') }
+  let(:http_client) { instance_double(Http::Client) }
 
   before do
-    allow(Subscriptions::Http::Client).to receive(:new).and_return(http_client)
+    allow(Http::Client).to receive(:new).and_return(http_client)
     allow(http_client).to receive(:call)
   end
 

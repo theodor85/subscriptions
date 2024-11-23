@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'Echo' do
@@ -12,7 +14,7 @@ RSpec.describe 'Echo' do
 
     it 'returns 404 for root get request' do
       get '/'
-  
+
       expect(last_response.status).to eq 404
     end
   end
