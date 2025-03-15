@@ -14,7 +14,8 @@ Dir[File.join('spec', 'support', '**', '*.rb')].each { |f| load f }
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  config.include_context 'sending messages', type: :sending_messages
+  config.include Import[:router]
+  config.include_context 'when sending messages', type: :router
 
   def app
     App

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+require 'redis'
 require_relative '../../../app/http/client'
 
-RSpec.shared_context 'sending messages' do
+RSpec.shared_context 'when sending messages' do
   let(:request_body) do
     {
       update_id: 1,
@@ -22,16 +23,26 @@ RSpec.shared_context 'sending messages' do
       }
     }
   end
-  let(:headers) { { 'CONTENT_TYPE' => 'application/json' } }
-  let(:http_client) { instance_double(Http::Client) }
+
+  let(:redis) { Redis.new(url: ENV['REDIS_URL']) }
 
   before do
-    allow(Http::Client).to receive(:new).and_return(http_client)
-    allow(http_client).to receive(:call)
+    redis.flushdb
   end
 
   def send_text_message(text)
     request_body[:message][:text] = text
-    post "/#{ENV['WEBHOOK_ENDPOINT']}", request_body.to_json, headers
+
+    router.(update: request_body)
+  end
+
+  def answer_is
+    return nil if http_client_calls.empty?
+
+    http_client_calls.last[2]
+  end
+
+  def current_state
+    redis.get('1_state')
   end
 end

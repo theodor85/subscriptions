@@ -3,7 +3,7 @@ version: '3'
 services:
 
   postgres:
-    image: postgres:15.2-alpine
+    image: postgres:17.4-alpine
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: username
@@ -14,7 +14,7 @@ services:
       - "5432:5432"
   
   redis: 
-    image: redis:7.0
+    image: redis:7.4.2-alpine
     ports:
       - "6379:6379"
 

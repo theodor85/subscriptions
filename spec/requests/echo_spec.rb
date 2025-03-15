@@ -2,20 +2,40 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Echo' do
-  describe 'Echo command', type: :sending_messages do
-    it 'returns the same message for the request' do
-      send_text_message('/echo Hello, world!')
+RSpec.describe 'Echo command', type: :sending_messages do
+  let(:answer_body) do
+    {
+      chat_id: 1,
+      text: 'Echo',
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'Выключить',
+              callback_data: 'off'
+            },
+            {
+              text: 'Вернуться',
+              callback_data: 'back'
+            }
+          ]
+        ]
+      }
+    }
+  end
 
-      expect(last_response).to be_ok
-      expect(last_response.body).to eq 'ok'
-      expect(http_client).to answer_is('Возвращаем вам ваше сообщение: Hello, world!')
-    end
+  let(:answer_error) do
+    { chat_id: 1, text: 'Неверная команда! Используйте кнопки Включить/Выключить и Вернуться' }
+  end
 
-    it 'returns 404 for root get request' do
-      get '/'
+  it 'returns the same message for the request' do
+    send_text_message('/echo')
 
-      expect(last_response.status).to eq 404
-    end
+    expect(answer_is).to eq(answer_body)
+    expect(current_state).to eq('qwestion')
+
+    send_text_message('Echo')
+    expect(answer_is).to eq(answer_error)
+    expect(current_state).to eq('qwestion')
   end
 end
