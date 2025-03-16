@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Send something to webhook endpoint' do
-    let(:request_body) do
+  let(:request_body) do
     {
       update_id: 1,
       message: {
