@@ -36,12 +36,6 @@ RSpec.shared_context 'when sending messages' do
     router.(update: request_body)
   end
 
-  def answer_is
-    return nil if http_client_calls.empty?
-
-    http_client_calls.last[2]
-  end
-
   def current_state
     redis.get('1_state')
   end
