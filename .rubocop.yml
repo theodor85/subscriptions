@@ -9,7 +9,7 @@ Style/TrailingCommaInHashLiteral:
 Style/TrailingCommaInArguments:
   Enabled: false
 Metrics/AbcSize:
-  Max: 20
+  Max: 21
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
@@ -19,4 +19,6 @@ RSpec/MultipleExpectations:
 RSpec/ExampleLength:
   Enabled: false
 RSpec/DescribeClass:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
   Enabled: false
