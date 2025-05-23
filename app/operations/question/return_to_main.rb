@@ -5,7 +5,7 @@ require_relative '../../tg_objects/answer'
 require_relative '../../tg_objects/answer_body'
 
 module Operations
-  module Qwestion
+  module Question
     class ReturnToMain < Base
       private
 

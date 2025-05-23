@@ -8,7 +8,8 @@ gem 'puma'
 gem 'rack'
 gem 'sinatra'
 
-gem 'activerecord'
+gem 'activerecord', '~> 7.1', '>= 7.1.3.4'
+gem 'activesupport', '~> 7.1', '>= 7.1.3.4'
 gem 'pg'
 
 gem 'dry-auto_inject'
@@ -24,12 +25,13 @@ gem 'sidekiq'
 
 gem 'dotenv'
 
-group :development do
+group :development, :test do
   gem 'rerun'
 
   gem 'pry'
   gem 'pry-byebug'
   gem 'rubocop'
+  gem 'rubocop-rspec'
 end
 
 group :test do
