@@ -111,25 +111,25 @@ RSpec.describe 'Echo command', type: :router do
   it 'returns error message if no answer after second step' do
     result = send_text_message('/echo')
     expect(result.value!).to eq(answer)
-    expect(current_state).to eq('qwestion')
+    expect(current_state).to eq('question')
 
     result = send_text_message('Something')
     expect(result.value!).to eq(answer_error)
-    expect(current_state).to eq('qwestion')
+    expect(current_state).to eq('question')
   end
 
   it 'happy path: echo, turn off, turn on, back' do
     result = send_text_message('/echo')
     expect(result.value!).to eq(answer)
-    expect(current_state).to eq('qwestion')
+    expect(current_state).to eq('question')
 
     result = press_button('off')
     expect(result.value!).to eq(answer_for_press_turn_off)
-    expect(current_state).to eq('qwestion')
+    expect(current_state).to eq('question')
 
     result = press_button('on')
     expect(result.value!).to eq(answer_for_press_turn_on)
-    expect(current_state).to eq('qwestion')
+    expect(current_state).to eq('question')
 
     result = press_button('back')
     expect(result.value!).to eq(answer_back)

@@ -34,34 +34,34 @@ class Container
     Http::Client.new
   end
 
-  register('states.qwestion') do
-    require_relative './app/states/qwestion'
+  register('states.question') do
+    require_relative './app/states/question'
 
-    States::Qwestion.new
+    States::Question.new
   end
 
-  register('operations.qwestion.turn_off') do
-    require_relative './app/operations/qwestion/turn_off'
+  register('operations.question.turn_off') do
+    require_relative './app/operations/question/turn_off'
 
-    Operations::Qwestion::TurnOff.new
+    Operations::Question::TurnOff.new
   end
 
-  register('operations.qwestion.turn_on') do
-    require_relative './app/operations/qwestion/turn_on'
+  register('operations.question.turn_on') do
+    require_relative './app/operations/question/turn_on'
 
-    Operations::Qwestion::TurnOn.new
+    Operations::Question::TurnOn.new
   end
 
-  register('operations.qwestion.return_to_main') do
-    require_relative './app/operations/qwestion/return_to_main'
+  register('operations.question.return_to_main') do
+    require_relative './app/operations/question/return_to_main'
 
-    Operations::Qwestion::ReturnToMain.new
+    Operations::Question::ReturnToMain.new
   end
 
-  register('operations.qwestion.error') do
-    require_relative './app/operations/qwestion/error'
+  register('operations.question.error') do
+    require_relative './app/operations/question/error'
 
-    Operations::Qwestion::Error.new
+    Operations::Question::Error.new
   end
 
   register('states.initial') do

@@ -4,7 +4,7 @@ module StateMachine
   class GetOperation
     include Import[
       'states.initial',
-      'states.qwestion'
+      'states.question'
     ]
 
     def call(state:, update:)

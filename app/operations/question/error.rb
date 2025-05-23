@@ -5,7 +5,7 @@ require_relative '../../tg_objects/answer'
 require_relative '../../tg_objects/answer_body'
 
 module Operations
-  module Qwestion
+  module Question
     class Error < Base
       private
 
@@ -20,7 +20,7 @@ module Operations
       end
 
       def next_state
-        :qwestion
+        :question
       end
 
       def data

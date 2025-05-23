@@ -7,8 +7,8 @@ require_relative '../../tg_objects/reply_markup'
 require_relative '../../tg_objects/inline_keyboard_button'
 
 module Operations
-  module Qwestion
-    class TurnOn < Base
+  module Question
+    class TurnOff < Base
       private
 
       def answer
@@ -23,7 +23,7 @@ module Operations
       end
 
       def next_state
-        :qwestion
+        :question
       end
 
       def data
@@ -37,8 +37,8 @@ module Operations
       def inline_keyboard
         [[
           TgObjects::InlineKeyboardButton.new(
-            text: 'Выключить',
-            callback_data: 'off'
+            text: 'Включить',
+            callback_data: 'on'
           ),
           TgObjects::InlineKeyboardButton.new(
             text: 'Вернуться',

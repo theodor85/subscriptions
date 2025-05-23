@@ -23,7 +23,7 @@ module Operations
       end
 
       def next_state
-        :qwestion
+        :question
       end
 
       def data
