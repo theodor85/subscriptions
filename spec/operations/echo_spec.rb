@@ -70,7 +70,7 @@ RSpec.describe 'Echo command', type: :router do
     ]]
   end
 
-    let(:answer_for_press_turn_on) do
+  let(:answer_for_press_turn_on) do
     TgObjects::Answer.new(
       tg_method: 'editMessageReplyMarkup',
       answer_body: TgObjects::AnswerBody.new(
