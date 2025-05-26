@@ -27,6 +27,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: lint
+    env:
+      TG_TOKEN: DDDDDDDDDDDDDD_xxxxxxxxxxxx_7pQ
+      TG_URL: https://api.telegram.org/bot1111111111:DDDDDDDDDDDDDD_xxxxxxxxxxxx_7pQ
+      TG_BOT_ID: 1111111111
+      WEBHOOK_URL: https://webhookurl.app/
+      WEBHOOK_ENDPOINT: AAAAABBBBBB
+      WEBHOOK_SECRET_TOKEN: xxxxxxxxxxxxx
+      REDIS_URL: redis://localhost:6379
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
