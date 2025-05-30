@@ -7,6 +7,14 @@ module Operations
     class DoNothing < Base
       private
 
+      def action
+        @answer = nil
+        @next_state = :initial
+        @data = {}
+
+        Success()
+      end
+
       def answer
         nil
       end
