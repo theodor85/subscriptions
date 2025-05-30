@@ -9,6 +9,14 @@ module Operations
     class Error < Base
       private
 
+      def action
+        @answer = answer
+        @next_state = next_state
+        @data = data
+
+        Success()
+      end
+
       def answer
         TgObjects::Answer.new(
           tg_method: 'sendMessage',

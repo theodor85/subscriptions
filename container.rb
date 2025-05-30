@@ -82,6 +82,11 @@ class Container
     Operations::Initial::DoNothing.new
   end
 
+  register('operations.initial.start') do
+    require_relative './app/operations/initial/start'
+    Operations::Initial::Start.new
+  end
+
   register('state_machine.get_current_state') do
     require_relative './app/state_machine/get_current_state'
 
