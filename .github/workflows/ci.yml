@@ -26,7 +26,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: lint
     env:
       TG_TOKEN: DDDDDDDDDDDDDD_xxxxxxxxxxxx_7pQ
       TG_URL: https://api.telegram.org/bot1111111111:DDDDDDDDDDDDDD_xxxxxxxxxxxx_7pQ
